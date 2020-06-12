@@ -37,20 +37,20 @@
 //   };
 // };
 
-export const fetchCurrentUser = () => {
-  // takes the token in localStorage and finds out who it belongs to
-  return (dispatch) => {
-    dispatch(authenticatingUser());
-    fetch("http://localhost:3000/profile", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((response) => response.json())
-      .then(({ user }) => dispatch(setCurrentUser(user)));
-  };
-};
+// export const fetchCurrentUser = () => {
+//   // takes the token in localStorage and finds out who it belongs to
+//   return (dispatch) => {
+//     dispatch(authenticatingUser());
+//     fetch("http://localhost:3000/profile", {
+//       method: "GET",
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem("token")}`,
+//       },
+//     })
+//       .then((response) => response.json())
+//       .then(({ user }) => dispatch(setCurrentUser(user)));
+//   };
+// };
 
 export const setCurrentUser = (userData) => ({
   type: "SET_CURRENT_USER",
@@ -70,6 +70,11 @@ export const setUserGroups = (userGroups) => ({
 export const setSelectedUser = (selectedUser) => ({
   type: "SET_SELECTED_USER",
   payload: selectedUser,
+});
+
+export const setUserPosts = (userPosts) => ({
+  type: "SET_USER_POSTS",
+  payload: userPosts,
 });
 
 // tell our app we're currently fetching

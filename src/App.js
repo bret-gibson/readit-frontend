@@ -6,7 +6,7 @@ import NotFound from "./components/NotFound";
 import "./App.css";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { setCurrentUser, setUserGroups } from "./actions/user";
+import { setCurrentUser, setUserGroups, setUserPosts } from "./actions/user";
 import LandingPage from "./components/LandingPage";
 import BookSearchContainer from "./components/BookSearchContainer";
 import GroupSearchContainer from "./components/GroupSearchContainer";
@@ -14,57 +14,11 @@ import GroupPage from "./components/GroupPage";
 import ProfilePage from "./components/ProfilePage";
 import CreateGroupForm from "./components/CreateGroupForm";
 import CreateUserForm from "./components/CreateUserForm";
+import BookDiscussionPage from "./components/BookDiscussionPage";
 
 function App(props) {
-  // constructor() {
-  //   super();
-  //   this.state = { currentUser: null };
-  // }
-
-  // updateCurrentUser = (user) => {
-  //   this.setState({ currentUser: user });
-  // };
-  // useEffect(() => {
-  //   checkUserAuthentication();
-  // });
-
-  // const checkUserAuthentication = () => {
-  //   console.log("mounted");
-  //   if (localStorage.getItem("token")) {
-  //     fetch("http://localhost:3000/decode_token", {
-  //       headers: {
-  //         Authenticate: localStorage.token,
-  //       },
-  //     })
-  //       .then((res) => res.json())
-  //       .then((userData) => {
-  //         // this.updateCurrentUser(userData);
-  //         setCurrentUser(userData);
-  //         //if error, don't update the state
-  //       });
-  //   } else {
-  //     console.log("No token found, user is not authenticated");
-  //   }
-  // };
-  // componentDidMount() {
-  //   console.log("mounted");
-  //   if (localStorage.getItem("token")) {
-  //     fetch("http://localhost:3000/decode_token", {
-  //       headers: {
-  //         Authenticate: localStorage.token,
-  //       },
-  //     })
-  //       .then((res) => res.json())
-  //       .then((userData) => {
-  //         this.updateCurrentUser(userData);
-  //         //if error, don't update the state
-  //       });
-  //   } else {
-  //     console.log("No token found, user is not authenticated");
-  //   }
-  // }
-
   useEffect(() => {
+    let userIdToSearch = "";
     if (localStorage.getItem("token")) {
       fetch("http://localhost:3000/decode_token", {
         headers: {
@@ -73,10 +27,20 @@ function App(props) {
       })
         .then((res) => res.json())
         .then((userData) => {
-          props.setCurrentUser(userData);
-          props.setUserGroups(userData.groups);
+          userIdToSearch = userData.id;
+          // props.setCurrentUser(userData);
+          // props.setUserGroups(userData.groups);
 
           //if error, don't update the state
+        })
+        .then(() => {
+          fetch(`http://localhost:3000/users/${userIdToSearch}`)
+            .then((resp) => resp.json())
+            .then((userData) => {
+              props.setCurrentUser(userData.user);
+              props.setUserGroups(userData.user.groups);
+              props.setUserPosts(userData.user.posts);
+            });
         });
     } else {
       console.log("No token found, user is not authenticated");
@@ -112,10 +76,15 @@ function App(props) {
         <Route exact path="/groups/:id" render={() => <GroupPage />} />
         <Route
           exact
+          path="/group_books/:id"
+          render={() => <BookDiscussionPage />}
+        />
+
+        <Route
+          exact
           path="/login"
           render={() =>
             props.user === null ? (
-              // <LoginForm updateCurrentUser={this.updateCurrentUser} />
               <LoginForm />
             ) : (
               <Redirect to="/" />
@@ -129,13 +98,14 @@ function App(props) {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.user.user,
+  user: state.user,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setCurrentUser: (user) => dispatch(setCurrentUser(user)),
     setUserGroups: (userGroups) => dispatch(setUserGroups(userGroups)),
+    setUserPosts: (userPosts) => dispatch(setUserPosts(userPosts)),
   };
 };
 

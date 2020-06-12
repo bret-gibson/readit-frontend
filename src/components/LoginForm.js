@@ -10,13 +10,11 @@ import {
 } from "semantic-ui-react";
 import {
   setCurrentUser,
-  loginUser,
   authenticatingUser,
   failedLogin,
+  setUserPosts,
 } from "../actions/user";
-import { compose } from "redux";
 import { connect } from "react-redux";
-
 import { Link } from "react-router-dom";
 
 function LoginForm(props) {
@@ -35,6 +33,7 @@ function LoginForm(props) {
   //When form is submitted, make a fetch to "log in the user"
   const handleLoginSubmit = (e) => {
     e.preventDefault();
+    let userIdToSearch = "";
     fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
@@ -51,15 +50,17 @@ function LoginForm(props) {
         if (userData.error_message) {
           alert(userData.error_message);
         } else {
+          userIdToSearch = userData.user_data.id;
           localStorage.setItem("token", userData.token);
           localStorage.setItem("userId", userData.user_data.id); //added this to store current user
         }
       })
       .then(() => {
-        fetch(`http://localhost:3000/users/${localStorage.getItem("userId")}`)
+        fetch(`http://localhost:3000/users/${userIdToSearch}`)
           .then((resp) => resp.json())
           .then((userData) => {
-            props.setCurrentUser(userData);
+            props.setCurrentUser(userData.user);
+            props.setUserPosts(userData.user.posts);
           });
       });
   };
@@ -68,7 +69,6 @@ function LoginForm(props) {
     <Grid textAlign="center" verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as="h2" color="teal" textAlign="center">
-          <img src="/static/images/logo.png" alt="logo" className="image" />{" "}
           Log-in to your account
         </Header>
         <Form size="large" onSubmit={handleLoginSubmit}>
@@ -112,13 +112,15 @@ function LoginForm(props) {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.user,
+    // user: state.user.user,
+    user: state.user,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setCurrentUser: (userData) => dispatch(setCurrentUser(userData)),
+    setUserPosts: (userPosts) => dispatch(setUserPosts(userPosts)),
     authenticatingUser: () => dispatch(authenticatingUser()),
     failedLogin: () => dispatch(failedLogin()),
   };

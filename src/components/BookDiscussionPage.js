@@ -1,82 +1,97 @@
-// import React, { useState, useEffect } from "react";
-// import { Button, Item, Grid } from "semantic-ui-react";
-// import { connect } from "react-redux";
-// import { withRouter, Link } from "react-router-dom";
-// import { setGroupBooks, setGroupUsers, setGroup } from "../actions/group";
+import React, { useState, useEffect } from "react";
+import { Button, Item, Grid, Image, Comment, Header } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
+import { setGroupBooks, setGroupUsers, setGroup } from "../actions/group";
+import { setBookPosts } from "../actions/post";
 
-// function BookDiscussionPage(props) {
-//   useEffect(() => {
-//     let groupBooks = null;
-//     let groupUsers = null;
-//     let wrongHostString = document.location.toString();
-//     let rightHostString = wrongHostString.replace("3001", "3000");
-//     fetch(rightHostString)
-//       .then((resp) => resp.json())
-//       .then((group) => {
-//         props.setGroup(group);
-//         groupBooks = group.group_books;
-//         groupUsers = group.group_users;
-//       })
-//       .then(() => {
-//         props.setGroupBooks(groupBooks);
-//         props.setGroupUsers(groupUsers);
-//       });
-//   }, []);
+import PostForm from "./PostForm";
+import Post from "./Post";
 
-//   if (props.groupBooks === null && props.groupUsers === null) {
-//     return <h1>Loading...</h1>;
-//   } else {
-//     return (
-//       <div>
-//         <h1>Welcome to {props.group.name}!</h1>
-//         <Button size="huge" floated="right">
-//           Join Group
-//         </Button>
-//         <h1>{props.group.description}</h1>
-//         <h1>{props.group.group_books.status}</h1>
-//         <Item.Group divided>
-//           {props.groupBooks.map((groupBook) => {
-//             return (
-//               <Item>
-//                 <Link to="">
-//                   <Item.Image size="small" src={groupBook.book.thumbnail} />
-//                 </Link>
-//                 <Item.Content style={{ marginLeft: "20px" }}>
-//                   <Link to="">
-//                     <Item.Header>{groupBook.book.title}</Item.Header>
-//                   </Link>
-//                   <Item.Meta>
-//                     <span>{groupBook.book.author}</span>
-//                   </Item.Meta>
-//                   <Item.Description>
-//                     <p>{groupBook.status}</p>
-//                   </Item.Description>
-//                 </Item.Content>
-//               </Item>
-//             );
-//           })}
-//         </Item.Group>
-//       </div>
-//     );
-//   }
-// }
+function BookDiscussionPage(props) {
+  const [postToggle, setPostToggle] = useState(false);
+  const [buttonText, setButtonText] = useState("Submit A Post");
 
-// const mapStateToProps = (state) => {
-//   return {
-//     group: state.groups.group,
-//     groupBooks: state.groups.groupBooks,
-//     groupUsers: state.groups.groupUsers,
-//   };
-// };
+  //   useEffect(() => {
+  //     //   let wrongHostString = document.location.toString();
+  //     //   let rightHostString = wrongHostString.replace("3001", "3000");
+  //     fetch(`http://localhost:3000/group_books/${props.groupBook.id}`)
+  //       .then((resp) => resp.json())
+  //       .then((groupBook) => {
+  //         props.setBookPosts(groupBook.posts);
+  //       });
+  //   }, []);
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     setGroup: (group) => dispatch(setGroup(group)),
-//     setGroupBooks: (group) => dispatch(setGroupBooks(group)),
-//     setGroupUsers: (group) => dispatch(setGroupUsers(group)),
-//   };
-// };
+  const handlePostButtonToggle = (e) => {
+    setPostToggle(!postToggle);
+    if (buttonText === "Submit A Post") {
+      setButtonText("Close Post Form");
+    } else {
+      setButtonText("Submit A Post");
+    }
+  };
 
-// export default withRouter(
-//   connect(mapStateToProps, mapDispatchToProps)(GroupPage)
-// );
+  const isUserInGroup = () => {
+    let userInGroup = false;
+    if (props.user) {
+      props.groupUsers.forEach((user) => {
+        if (user.id === props.user.id) {
+          userInGroup = true;
+        }
+      });
+    }
+    return userInGroup;
+  };
+
+  if (props.groupBook === null) {
+    return <h1>Loading...</h1>;
+  } else {
+    return (
+      <div>
+        <h2>{props.groupBook.book.title}</h2>
+        <h3>{props.groupBook.book.author}</h3>
+        <Image src={props.groupBook.book.thumbnail}></Image>
+        <h4>Summary: {props.groupBook.book.summary}</h4>
+        {/* <h3>Discussion: </h3> */}
+        <Comment.Group>
+          <Header as="h3" dividing>
+            Posts
+          </Header>
+          {isUserInGroup() ? (
+            <Button size="small" onClick={handlePostButtonToggle}>
+              {buttonText}
+            </Button>
+          ) : null}
+          {postToggle ? <PostForm /> : null}
+
+          {props.posts.map((post) => {
+            //   return <p>{post.content}</p>;
+            return <Post post={post} />;
+          })}
+        </Comment.Group>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+    group: state.groups.group,
+    groupBook: state.groups.groupBook,
+    groupUsers: state.groups.groupUsers,
+    posts: state.posts,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setGroup: (group) => dispatch(setGroup(group)),
+    setGroupUsers: (group) => dispatch(setGroupUsers(group)),
+    setBookPosts: (posts) => dispatch(setBookPosts(posts)),
+  };
+};
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(BookDiscussionPage)
+);

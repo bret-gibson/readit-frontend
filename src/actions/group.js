@@ -27,3 +27,8 @@ export const setGroupBook = (groupBook) => ({
     type: "SET_GROUP_BOOK",
     payload: groupBook,
   });
+
+  export const setActiveBook = (groupBook) => ({
+    type: "SET_ACTIVE_BOOK",
+    payload: groupBook,
+  });

@@ -9,7 +9,10 @@ function BookSearchItem(props) {
   const [selectedGroup, setSelectedGroup] = useState(0);
 
   useEffect(() => {
-    userGroupsOptions(props.user.user.groups);
+    // userGroupsOptions(props.user.user.groups);
+    if (props.user || props.user.groups) {
+      userGroupsOptions(props.user.groups);
+    }
   }, []);
 
   const userGroupsOptions = (userGroups) => {
@@ -59,6 +62,7 @@ function BookSearchItem(props) {
             </Card.Content>
           </Card>
         }
+        closeIcon
       >
         <Modal.Header>Book Details</Modal.Header>
         <Modal.Content image>
@@ -67,21 +71,50 @@ function BookSearchItem(props) {
             <h2>{props.book.title}</h2>
             <h4>By: {props.book.author}</h4>
 
-            <p>Summary: {props.book.summary}</p>
-            <p>Pages: {props.book.pages}</p>
-            <p>Average Rating: {props.book.average_rating}</p>
-            <p>ISBN-13: {props.book.isbn13}</p>
-            <p>ISBN-10: {props.book.isbn10}</p>
-            <p>Pick a club to add this book to:</p>
-            <Form>
-              <Select
-                onChange={handleChange}
-                placeholder="Select Book Club"
-                value={selectedGroup.id}
-                options={optionsData}
-              />
-              <Button onClick={handleBookAdd}>Add Book to Club</Button>
-            </Form>
+            <p>
+              <b>Summary:</b> {props.book.summary}
+            </p>
+            <p>
+              <b>Pages:</b> {props.book.pages}
+            </p>
+            <p>
+              <b>Average Rating:</b> {props.book.average_rating}
+            </p>
+            <p>
+              <b>ISBN-13:</b> {props.book.isbn13}
+            </p>
+            <p>
+              <b>ISBN-10:</b> {props.book.isbn10}
+            </p>
+            {props.user ? (
+              <div>
+                <p>Pick a club to add this book to:</p>
+                <Form>
+                  <Select
+                    onChange={handleChange}
+                    placeholder="Select Book Club"
+                    value={selectedGroup.id}
+                    options={optionsData}
+                  />
+                  <Modal
+                    trigger={
+                      <Button onClick={handleBookAdd}>Add Book to Club</Button>
+                    }
+                    closeIcon
+                  >
+                    <Modal.Header>Book Added</Modal.Header>
+
+                    <Modal.Content>
+                      <Modal.Description>
+                        {props.book.title} has been added!
+                      </Modal.Description>
+                    </Modal.Content>
+                  </Modal>
+                </Form>
+              </div>
+            ) : (
+              <p>Please log in to add this book to a club!</p>
+            )}
           </Modal.Description>
         </Modal.Content>
       </Modal>
@@ -91,7 +124,8 @@ function BookSearchItem(props) {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.user,
+    // user: state.user.user,
+    user: state.user,
     mostPopular: state.books.mostPopular,
     searchedBooks: state.books.searchedBooks,
   };

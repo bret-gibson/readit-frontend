@@ -1,10 +1,8 @@
-export function userReducer(state = { user: null, userGroups: null }, action) {
+export function userReducer(state = null, action) {
   switch (action.type) {
     case "SET_CURRENT_USER":
-      return {
-        ...state,
-        user: action.payload,
-      };
+      return action.payload;
+
     case "AUTHENTICATING_USER":
       return {
         ...state,
@@ -20,10 +18,15 @@ export function userReducer(state = { user: null, userGroups: null }, action) {
         ...state,
         userGroups: action.payload,
       };
-    case "SET_SELECTED_USER":
+    // case "SET_SELECTED_USER":
+    //   return {
+    //     ...state,
+    //     selectedUser: action.payload,
+    //   };
+    case "SET_USER_POSTS":
       return {
         ...state,
-        selectedUser: action.payload,
+        userPosts: action.payload,
       };
     default:
       return state;

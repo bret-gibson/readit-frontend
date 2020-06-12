@@ -10,7 +10,7 @@ import {
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { setGroupBook } from "../actions/group";
-import { setSelectedUser } from "../actions/user";
+import { setSelectedUser } from "../actions/selectedUser";
 
 function ProfilePage(props) {
   const handleGroupBookClick = (groupBook) => {
@@ -24,34 +24,37 @@ function ProfilePage(props) {
     fetch(rightHostString)
       .then((resp) => resp.json())
       .then((userData) => {
-        debugger;
         selectedUser = userData;
       })
       .then(() => {
         props.setSelectedUser(selectedUser);
       });
-  }, [props.selectedUser]);
+  }, []);
 
   if (props.selectedUser) {
     return (
       <div>
         <h1>{props.selectedUser.username}'s Profile</h1>
-        <h3>Clubs:</h3>
+        <h3>Member Of:</h3>
         <Item.Group divided>
-          {props.selectedUser.user.groups.map((userGroup) => {
+          {props.selectedUser.groups.map((userGroup) => {
             return (
               <Item key={userGroup.id}>
-                <Link to={`/groups/${userGroup.id}`}>
-                  <Item.Header>
-                    <h1>{userGroup.name}</h1>
-                  </Item.Header>
-                </Link>
-                <Item.Meta>{userGroup.description}</Item.Meta>
-                <ItemDescription>
+                <Item.Content>
+                  <Link to={`/groups/${userGroup.id}`}>
+                    <Item.Header>
+                      <h1>{userGroup.name}</h1>
+                    </Item.Header>
+                  </Link>
+                  <Item.Description style={{ alignItems: "center" }}>
+                    {userGroup.description}
+                  </Item.Description>
+                  {/* <ItemDescription>
                   {userGroup.books.map((book) => {
                     return <h2>{book.title}</h2>;
                   })}
-                </ItemDescription>
+                </ItemDescription> */}
+                </Item.Content>
               </Item>
             );
           })}
@@ -67,7 +70,7 @@ const mapStateToProps = (state) => {
   return {
     // userGroups: state.user.userGroups,
     // user: state.user.user,
-    selectedUser: state.user.selectedUser,
+    selectedUser: state.selectedUser,
   };
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, withRouter, Link } from "react-router-dom";
 import { Menu, Button, Modal } from "semantic-ui-react";
-import { setCurrentUser, setSelectedUser } from "../actions/user";
+import { setCurrentUser } from "../actions/user";
 import { connect } from "react-redux";
 
 function Nav(props) {
@@ -10,12 +10,13 @@ function Nav(props) {
     localStorage.removeItem("user");
     props.setCurrentUser(null);
   };
-
   return (
     <div>
-      {props.user ? (
+      { props.user ? (
         <Menu>
-          <Menu.Item header>Flatiron Book Club</Menu.Item>
+          <Menu.Item header as={NavLink} to="/" active="false">
+            Flatiron Book Club
+          </Menu.Item>
 
           <Menu.Item as={NavLink} to="/browse-books" name="Browse Books" />
           <Menu.Item as={NavLink} to="/browse-clubs" name="Browse Clubs" />
@@ -37,7 +38,9 @@ function Nav(props) {
       ) : (
         <div>
           <Menu>
-            <Menu.Item header>Flatiron Book Club</Menu.Item>
+            <Menu.Item header as={NavLink} to="/" active={false}>
+              Flatiron Book Club
+            </Menu.Item>{" "}
             <Menu.Item as={NavLink} to="/browse-books" name="Browse Books" />
             <Menu.Item
               as={NavLink}
@@ -45,7 +48,6 @@ function Nav(props) {
               name="Browse Clubs"
               // active={pathname === "/browse-groups"}
             />
-
             <Menu.Menu position="right">
               <Menu.Item>
                 <Link to="/login">
@@ -67,7 +69,8 @@ function Nav(props) {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.user,
+    // user: state.user.user,
+    user: state.user,
   };
 };
 

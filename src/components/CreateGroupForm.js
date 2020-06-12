@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Grid, Image, Button, Form } from "semantic-ui-react";
+import { Card, Modal, Button, Form } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { withRouter, Link, Redirect } from "react-router-dom";
 import { setGroup, setGroupUsers } from "../actions/group";
@@ -9,6 +9,8 @@ function CreateGroupForm(props) {
     name: "",
     description: "",
   });
+
+  const [groupId, setgroupId] = useState("");
 
   const handleChange = (e) => {
     setInput({
@@ -54,8 +56,7 @@ function CreateGroupForm(props) {
       })
       .then(() => {
         props.setGroup(newGroup);
-        props.setGroupUsers(newGroup.users);
-        props.history.push(`/groups/${newGroup.id}`);
+        setgroupId(newGroup.id);
       });
   };
 
@@ -99,9 +100,26 @@ function CreateGroupForm(props) {
               value={input.description}
             />
           </Form.Field>
-          <Button type="submit" value="Submit Group" onClick={handleSubmit}>
-            Create Club!
-          </Button>
+          <Modal
+            trigger={
+              <Button type="submit" value="Submit Group" onClick={handleSubmit}>
+                Create Club!
+              </Button>
+            }
+            closeIcon
+          >
+            <Modal.Header>Club Created</Modal.Header>
+            <Modal.Content>
+              <Modal.Description>
+                Club {input.name} has been created!
+              </Modal.Description>
+            </Modal.Content>
+            <Modal.Actions>
+              <Link to={`/groups/${groupId}`}>
+                <Button>Go to Club Page</Button>
+              </Link>
+            </Modal.Actions>
+          </Modal>
         </Form>
       </Card>
     </div>
@@ -110,7 +128,8 @@ function CreateGroupForm(props) {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.user,
+    // user: state.user.user,
+    user: state.user,
     group: state.groups.group,
   };
 };

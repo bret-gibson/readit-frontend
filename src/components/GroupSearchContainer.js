@@ -18,13 +18,13 @@ function GroupSearchContainer(props) {
       .then((resp) => resp.json())
       .then((groups) => {
         function compare(a, b) {
-          const groupBooksA = a.group_books.length;
-          const groupBooksB = b.group_books.length;
+          const usersA = a.users.length;
+          const usersB = b.users.length;
 
           let comparison = 0;
-          if (groupBooksA > groupBooksB) {
+          if (usersA > usersB) {
             comparison = -1;
-          } else if (groupBooksA < groupBooksB) {
+          } else if (usersA < usersB) {
             comparison = 1;
           }
           return comparison;

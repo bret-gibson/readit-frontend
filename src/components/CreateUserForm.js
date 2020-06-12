@@ -77,7 +77,6 @@ function CreateUserForm(props) {
     <Grid textAlign="center" verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as="h2" color="teal" textAlign="center">
-          <img src="/static/images/logo.png" alt="logo" className="image" />{" "}
           Create Your Account
         </Header>
         <Form size="large" onSubmit={handleLoginSubmit}>
@@ -113,7 +112,8 @@ function CreateUserForm(props) {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.user,
+    // user: state.user.user,
+    user: state.user,
   };
 };
 
