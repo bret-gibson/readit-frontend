@@ -7,6 +7,7 @@ import {
   Form,
   Segment,
   Message,
+  Image,
 } from "semantic-ui-react";
 import {
   setCurrentUser,
@@ -66,47 +67,54 @@ function LoginForm(props) {
   };
 
   return (
-    <Grid textAlign="center" verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" color="teal" textAlign="center">
-          Log-in to your account
-        </Header>
-        <Form size="large" onSubmit={handleLoginSubmit}>
-          <Segment stacked>
-            <Form.Input
-              fluid
-              icon="user"
-              iconPosition="left"
-              placeholder="Username"
-              name="username"
-              value={input.username}
-              onChange={handleChange}
-            />
-            <Form.Input
-              fluid
-              icon="lock"
-              iconPosition="left"
-              placeholder="Password"
-              type="password"
-              name="password"
-              value={input.password}
-              onChange={handleChange}
-            />
-            <Button color="teal" fluid size="large" onClick={handleLoginSubmit}>
-              Login
-            </Button>
-          </Segment>
-        </Form>
-        <Message>
-          New here?
-          <Link to="/create-account">
-            <Button size="tiny" style={{ marginLeft: "15px" }}>
-              Sign up!
-            </Button>
-          </Link>
-        </Message>
-      </Grid.Column>
-    </Grid>
+    <div style={{ marginTop: "40px" }}>
+      <Grid textAlign="center" verticalAlign="middle">
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Header as="h2" textAlign="center" style={{ color: "white" }}>
+            <Image
+              style={{ display: "inline-block" }}
+              size="huge"
+              src="/logo.png"
+            ></Image>
+            Log-in to your account
+          </Header>
+          <Form size="large" onSubmit={handleLoginSubmit}>
+            <Segment stacked>
+              <Form.Input
+                fluid
+                icon="user"
+                iconPosition="left"
+                placeholder="Username"
+                name="username"
+                value={input.username}
+                onChange={handleChange}
+              />
+              <Form.Input
+                fluid
+                icon="lock"
+                iconPosition="left"
+                placeholder="Password"
+                type="password"
+                name="password"
+                value={input.password}
+                onChange={handleChange}
+              />
+              <Button primary fluid size="large" onClick={handleLoginSubmit}>
+                Login
+              </Button>
+            </Segment>
+          </Form>
+          <Message>
+            New here?
+            <Link to="/create-account">
+              <Button primary size="tiny" style={{ marginLeft: "15px" }}>
+                Sign up!
+              </Button>
+            </Link>
+          </Message>
+        </Grid.Column>
+      </Grid>
+    </div>
   );
 }
 

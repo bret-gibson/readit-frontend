@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router";
-import {
-  Grid,
-  Header,
-  Button,
-  Form,
-  Segment,
-  Message,
-} from "semantic-ui-react";
+import { Grid, Header, Button, Form, Segment, Image } from "semantic-ui-react";
 import {
   setCurrentUser,
   loginUser,
@@ -23,6 +16,7 @@ function CreateUserForm(props) {
   const [input, setInput] = useState({
     username: "",
     password: "",
+    avatar: "",
   });
 
   const handleChange = (e) => {
@@ -43,6 +37,7 @@ function CreateUserForm(props) {
       body: JSON.stringify({
         username: input.username[0],
         password: input.password[0],
+        avatar: input.avatar[0],
       }),
     })
       .then(() => {
@@ -74,39 +69,56 @@ function CreateUserForm(props) {
   };
 
   return (
-    <Grid textAlign="center" verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" color="teal" textAlign="center">
-          Create Your Account
-        </Header>
-        <Form size="large" onSubmit={handleLoginSubmit}>
-          <Segment stacked>
-            <Form.Input
-              fluid
-              icon="user"
-              iconPosition="left"
-              placeholder="Username"
-              name="username"
-              value={input.username}
-              onChange={handleChange}
-            />
-            <Form.Input
-              fluid
-              icon="lock"
-              iconPosition="left"
-              placeholder="Password"
-              type="password"
-              name="password"
-              value={input.password}
-              onChange={handleChange}
-            />
-            <Button color="teal" fluid size="large" onClick={handleLoginSubmit}>
-              Create Account and Login
-            </Button>
-          </Segment>
-        </Form>
-      </Grid.Column>
-    </Grid>
+    <div style={{ marginTop: "40px" }}>
+      <Grid textAlign="center" verticalAlign="middle">
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Header as="h2" textAlign="center" style={{ color: "white" }}>
+            <Image
+              style={{ display: "inline-block" }}
+              size="huge"
+              src="/logo.png"
+            ></Image>
+            Create Your Account
+          </Header>
+          <Form size="large" onSubmit={handleLoginSubmit}>
+            <Segment stacked>
+              <Form.Input
+                fluid
+                icon="user"
+                iconPosition="left"
+                placeholder="Username"
+                name="username"
+                value={input.username}
+                onChange={handleChange}
+              />
+              <Form.Input
+                fluid
+                icon="lock"
+                iconPosition="left"
+                placeholder="Password"
+                type="password"
+                name="password"
+                value={input.password}
+                onChange={handleChange}
+              />
+              <Form.Input
+                fluid
+                icon="paperclip"
+                iconPosition="left"
+                placeholder="Avatar URL"
+                type="avatar"
+                name="avatar"
+                value={input.avatar}
+                onChange={handleChange}
+              />
+              <Button primary fluid size="large" onClick={handleLoginSubmit}>
+                Create Account and Login
+              </Button>
+            </Segment>
+          </Form>
+        </Grid.Column>
+      </Grid>
+    </div>
   );
 }
 

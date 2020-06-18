@@ -15,6 +15,7 @@ import ProfilePage from "./components/ProfilePage";
 import CreateGroupForm from "./components/CreateGroupForm";
 import CreateUserForm from "./components/CreateUserForm";
 import BookDiscussionPage from "./components/BookDiscussionPage";
+import UserDashboard from "./components/UserDashboard";
 
 function App(props) {
   useEffect(() => {
@@ -53,7 +54,15 @@ function App(props) {
       // updateCurrentUser={this.updateCurrentUser}
       />
       <Switch>
-        <Route exact path="/" render={() => <LandingPage />} />
+        <Route
+          exact
+          path="/"
+          render={() => {
+            {
+              return props.user === null ? <LandingPage /> : <UserDashboard />;
+            }
+          }}
+        />
         <Route
           exact
           path="/users/:id"
@@ -84,11 +93,7 @@ function App(props) {
           exact
           path="/login"
           render={() =>
-            props.user === null ? (
-              <LoginForm />
-            ) : (
-              <Redirect to="/" />
-            )
+            props.user === null ? <LoginForm /> : <Redirect to="/" />
           }
         />
         <Route component={NotFound} />

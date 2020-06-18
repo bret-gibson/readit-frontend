@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Grid, Image, Button, Form } from "semantic-ui-react";
+import { Card, Grid, Image, Button, Form, Divider } from "semantic-ui-react";
 import { connect, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { setMostPopularBooks, setSearchedBooks } from "../actions/book";
@@ -80,29 +80,34 @@ function BookSearchContainer(props) {
 
   if (props.searchedBooks === null && props.mostPopular !== null) {
     return (
-      <div>
+      <div style={{ marginLeft: "50px", marginTop: "25px", color: "white" }}>
         <h1>Find a Book!</h1>
-        <h4>Click on a book to add it to one of your clubs</h4>
-
+        {/* <h4>Click on a book to add it to one of your clubs</h4> */}
+        <h4>Search Books:</h4>
         <Form>
-          <Form.Field>
-            <label>Search Books</label>
-            <input
-              onChange={handleChange}
-              placeholder="Enter Book Title or Author Name"
-              name="search"
-              value={input.search}
-            />
-          </Form.Field>
-          <Button onClick={handleSearchSubmit}>Search</Button>
+          <Form.Group widths="equal">
+            <Form.Input>
+              <input
+                onChange={handleChange}
+                placeholder="Enter Book Title or Author Name"
+                name="search"
+                value={input.search}
+              />
+            </Form.Input>
+            <Form.Button
+              style={{
+                alignItems: "center",
+              }}
+              onClick={handleSearchSubmit}
+            >
+              Search
+            </Form.Button>
+          </Form.Group>
         </Form>
         <h2>Most Popular Books</h2>
-        <div
-          style={{
-            marginLeft: "100px",
-            marginRight: "100px",
-          }}
-        >
+        <Divider />
+
+        <div>
           <Card.Group>
             {props.mostPopular.map((book) => {
               return <BookSearchItem key={book.id} book={book} />;
@@ -113,9 +118,11 @@ function BookSearchContainer(props) {
     );
   } else if (props.searchedBooks !== null) {
     return (
-      <div>
+      <div style={{ marginLeft: "50px", marginTop: "25px", color: "white" }}>
         <h1>Find a Book!</h1>
-        <Form>
+        <h4>Search Books:</h4>
+
+        {/* <Form>
           <Form.Field>
             <label>Search Books</label>
             <input
@@ -126,14 +133,30 @@ function BookSearchContainer(props) {
             />
           </Form.Field>
           <Button onClick={handleSearchSubmit}>Search</Button>
+        </Form> */}
+        <Form>
+          <Form.Group widths="equal">
+            <Form.Input>
+              <input
+                onChange={handleChange}
+                placeholder="Enter Book Title or Author Name"
+                name="search"
+                value={input.search}
+              />
+            </Form.Input>
+            <Form.Button
+              style={{
+                alignItems: "center",
+              }}
+              onClick={handleSearchSubmit}
+            >
+              Search
+            </Form.Button>
+          </Form.Group>
         </Form>
         <h2>Search Results</h2>
-        <div
-          style={{
-            marginLeft: "100px",
-            marginRight: "100px",
-          }}
-        >
+        <Divider />
+        <div>
           <Card.Group>
             {props.searchedBooks.map((book) => {
               return <BookSearchItem key={book.id} book={book} />;

@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, withRouter, Link } from "react-router-dom";
-import { Menu, Button, Modal } from "semantic-ui-react";
+import { Menu, Button, Image } from "semantic-ui-react";
 import { setCurrentUser } from "../actions/user";
 import { connect } from "react-redux";
 
@@ -12,10 +12,10 @@ function Nav(props) {
   };
   return (
     <div>
-      { props.user ? (
+      {props.user ? (
         <Menu>
           <Menu.Item header as={NavLink} to="/" active="false">
-            Flatiron Book Club
+            <Image size="mini" src="/logo.png"></Image>
           </Menu.Item>
 
           <Menu.Item as={NavLink} to="/browse-books" name="Browse Books" />
@@ -27,10 +27,13 @@ function Nav(props) {
               as={NavLink}
               to={`/users/${props.user.id}`}
               name={props.user.username}
-            />
+            >
+              <Image size="mini" src={props.user.avatar} />
+              {props.user.username}
+            </Menu.Item>
             <Menu.Item>
               <Link to="/" onClick={logout}>
-                <Button>Log Out</Button>
+                <Button primary>Log Out</Button>
               </Link>
             </Menu.Item>
           </Menu.Menu>
@@ -38,9 +41,9 @@ function Nav(props) {
       ) : (
         <div>
           <Menu>
-            <Menu.Item header as={NavLink} to="/" active={false}>
-              Flatiron Book Club
-            </Menu.Item>{" "}
+            <Menu.Item header as={NavLink} to="/" active="false">
+              <Image size="mini" src="/logo.png"></Image>
+            </Menu.Item>
             <Menu.Item as={NavLink} to="/browse-books" name="Browse Books" />
             <Menu.Item
               as={NavLink}
@@ -51,7 +54,7 @@ function Nav(props) {
             <Menu.Menu position="right">
               <Menu.Item>
                 <Link to="/login">
-                  <Button>Sign In</Button>
+                  <Button primary>Sign In</Button>
                 </Link>
               </Menu.Item>
               <Menu.Item>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button, Image, Form, Modal, Select } from "semantic-ui-react";
+import { Card, Button, Form, Modal, Select, Image } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
@@ -49,11 +49,25 @@ function BookSearchItem(props) {
   };
 
   return (
-    <div>
+    <div style={{ padding: "15px" }}>
       <Modal
         trigger={
-          <Card style={{ display: "inline-block" }}>
-            <Image src={props.book.thumbnail} wrapped ui={false} />
+          <Card
+            style={{
+              display: "inline-block",
+              paddingTop: "10px",
+            }}
+          >
+            {/* <Image
+              style={{ margin: "auto" }}
+              size="medium"
+              centered={true}
+              ui={false}
+              src={props.book.thumbnail}
+            /> */}
+            <div style={{ paddingLeft: "45px" }}>
+              <img src={props.book.thumbnail} height={300} width={200} />
+            </div>
             <Card.Content>
               <Card.Header>{props.book.title}</Card.Header>
               <Card.Meta>
@@ -66,7 +80,10 @@ function BookSearchItem(props) {
       >
         <Modal.Header>Book Details</Modal.Header>
         <Modal.Content image>
-          <Image src={props.book.thumbnail} wrapped size="medium" />
+          <Image
+            src={props.book.thumbnail}
+            style={{ height: "150px", width: "100px" }}
+          />
           <Modal.Description>
             <h2>{props.book.title}</h2>
             <h4>By: {props.book.author}</h4>
@@ -98,7 +115,12 @@ function BookSearchItem(props) {
                   />
                   <Modal
                     trigger={
-                      <Button onClick={handleBookAdd}>Add Book to Club</Button>
+                      <Button
+                        style={{ marginLeft: "10px" }}
+                        onClick={handleBookAdd}
+                      >
+                        Add Book to Club
+                      </Button>
                     }
                     closeIcon
                   >

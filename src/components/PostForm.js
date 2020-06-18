@@ -3,6 +3,7 @@ import { Form, Button, TextArea } from "semantic-ui-react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { setBookPosts } from "../actions/post";
+import { Editor } from "@tinymce/tinymce-react";
 
 function PostForm(props) {
   const [content, setContent] = useState("");
@@ -11,8 +12,8 @@ function PostForm(props) {
   //     comment: "",
   //   });
 
-  const handleChange = (e) => {
-    setContent(e.target.value);
+  const handleChange = (content, editor) => {
+    setContent(content);
   };
 
   useEffect(() => {
@@ -39,6 +40,7 @@ function PostForm(props) {
         .then((groupBookData) => {
           props.setBookPosts(groupBookData.posts);
           setContent("");
+          props.setPostToggle(false);
         });
     });
   };
@@ -57,6 +59,7 @@ function PostForm(props) {
         .then((resp) => resp.json())
         .then((groupBookData) => {
           props.setBookPosts(groupBookData.posts);
+          props.setEditToggle(false);
         });
     });
   };
@@ -138,15 +141,26 @@ function PostForm(props) {
     <div>
       {props.previousContent && props.postId ? (
         <Form>
-          <Form.Field>
-            <TextArea
-              name="content"
-              type="textarea"
-              onChange={handleChange}
-              value={content}
-            />
+   <Editor
+            apiKey="flqstmmeoxdr0xeliwtq0xx10lz2a9vuha5bttpd1xhkzwld"
+            name="content"
+            value={content}
+            init={{
+              height: 250,
+              menubar: false,
+              plugins: [
+                "advlist autolink lists link image charmap print preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table paste code help wordcount",
+              ],
+              toolbar:
+                "undo redo | formatselect | bold italic backcolor | \
+             alignleft aligncenter alignright alignjustify | \
+             bullist numlist outdent indent | removeformat | help",
+            }}
+            onEditorChange={handleChange}
+          />
             {/* <input placeholder='Comment' name='comment' type='textarea' onChange={this.handleChange} value={this.state.comment} /> */}
-          </Form.Field>
           <Button
             color="violet"
             size="mini"
@@ -159,15 +173,34 @@ function PostForm(props) {
         </Form>
       ) : (
         <Form>
-          <Form.Field>
+          <Editor
+            apiKey="flqstmmeoxdr0xeliwtq0xx10lz2a9vuha5bttpd1xhkzwld"
+            name="content"
+            value={content}
+            init={{
+              height: 250,
+              menubar: false,
+              plugins: [
+                "advlist autolink lists link image charmap print preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table paste code help wordcount",
+              ],
+              toolbar:
+                "undo redo | formatselect | bold italic backcolor | \
+             alignleft aligncenter alignright alignjustify | \
+             bullist numlist outdent indent | removeformat | help",
+            }}
+            onEditorChange={handleChange}
+          />
+          {/* <Form.Field>
             <TextArea
               name="content"
               type="textarea"
               onChange={handleChange}
               value={content}
             />
-            {/* <input placeholder='Comment' name='comment' type='textarea' onChange={this.handleChange} value={this.state.comment} /> */}
-          </Form.Field>
+          </Form.Field> */}
+
           <Button
             color="violet"
             size="mini"

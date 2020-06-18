@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Button, Item, Grid, Image, Comment, Header } from "semantic-ui-react";
+import {
+  Button,
+  Item,
+  Grid,
+  Image,
+  Comment,
+  Header,
+  Card,
+  Divider,
+} from "semantic-ui-react";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { setGroupBooks, setGroupUsers, setGroup } from "../actions/group";
@@ -33,7 +42,7 @@ function BookDiscussionPage(props) {
 
   const isUserInGroup = () => {
     let userInGroup = false;
-    if (props.user) {
+    if (props.user && props.groupUsers) {
       props.groupUsers.forEach((user) => {
         if (user.id === props.user.id) {
           userInGroup = true;
@@ -47,28 +56,136 @@ function BookDiscussionPage(props) {
     return <h1>Loading...</h1>;
   } else {
     return (
-      <div>
-        <h2>{props.groupBook.book.title}</h2>
-        <h3>{props.groupBook.book.author}</h3>
+      <div style={{ marginLeft: "50px", marginTop: "25px" }}>
+        <Button
+          onClick={() => {
+            props.history.goBack();
+          }}
+        >
+          Back
+        </Button>
+        <Grid columns={2}>
+          <Grid.Row>
+            <Grid.Column width={6}>
+              <div
+                style={{
+                  paddingTop: "25px",
+                  paddingBottom: "10px",
+                  color: "white",
+                }}
+              >
+                <h2>{props.group.name}'s Discussion for:</h2>
+              </div>
+              <div style={{ paddingLeft: "20px" }}>
+                <Card
+                  style={{
+                    display: "inline-block",
+                    padding: "20px",
+                  }}
+                >
+                  <Image
+                    src={props.groupBook.book.thumbnail}
+                    wrapped
+                    ui={false}
+                  />
+                  <Card.Content>
+                    <Card.Header>{props.groupBook.book.title}</Card.Header>
+                    <Card.Meta>
+                      <span>By: {props.groupBook.book.author}</span>
+                    </Card.Meta>
+                  </Card.Content>
+                </Card>
+              </div>
+            </Grid.Column>
+
+            <Grid.Column>
+              <Comment.Group>
+                <Header
+                  as="h2"
+                  dividing
+                  style={{ paddingTop: "29px", color: "white" }}
+                >
+                  Discussion
+                </Header>
+                <Divider inverted />
+                {isUserInGroup() ? (
+                  <Button size="small" onClick={handlePostButtonToggle}>
+                    {buttonText}
+                  </Button>
+                ) : null}
+                {postToggle ? (
+                  <PostForm
+                    setPostToggle={setPostToggle}
+                    setButtonText={setButtonText}
+                    buttonText={buttonText}
+                    postToggle={postToggle}
+                  />
+                ) : null}
+
+                {props.posts.length > 0 ? (
+                  props.posts.map((post) => {
+                    //   return <p>{post.content}</p>;
+                    return <Post post={post} postUser={post.user} />;
+                  })
+                ) : (
+                  <div style={{ color: "white", padding: "20px" }}>
+                    <h1>There are no posts yet!</h1>
+                  </div>
+                )}
+              </Comment.Group>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        {/* <h1>{props.group.name}'s Discussion for</h1>
+        <Card
+          style={{
+            display: "inline-block",
+            padding: "20px",
+          }}
+        >
+          <Image src={props.groupBook.book.thumbnail} wrapped ui={false} />
+          <Card.Content>
+            <Card.Header>{props.groupBook.book.title}</Card.Header>
+            <Card.Meta>
+              <span>By: {props.groupBook.book.author}</span>
+            </Card.Meta>
+          </Card.Content>
+        </Card> */}
+        {/* <div style={{ marginTop: "10px" }}>
+          <h2>{props.groupBook.book.title}</h2>
+        </div>
+        <div style={{ marginTop: "10px" }}>
+          <h4>By: {props.groupBook.book.author}</h4>
+        </div>
         <Image src={props.groupBook.book.thumbnail}></Image>
-        <h4>Summary: {props.groupBook.book.summary}</h4>
-        {/* <h3>Discussion: </h3> */}
-        <Comment.Group>
+        <h4>Summary: {props.groupBook.book.summary}</h4> */}
+        {/* <Comment.Group>
           <Header as="h3" dividing>
-            Posts
+            Discussion
           </Header>
           {isUserInGroup() ? (
             <Button size="small" onClick={handlePostButtonToggle}>
               {buttonText}
             </Button>
           ) : null}
-          {postToggle ? <PostForm /> : null}
+          {postToggle ? (
+            <PostForm
+              setPostToggle={setPostToggle}
+              setButtonText={setButtonText}
+              buttonText={buttonText}
+              postToggle={postToggle}
+            />
+          ) : null}
 
-          {props.posts.map((post) => {
-            //   return <p>{post.content}</p>;
-            return <Post post={post} />;
-          })}
-        </Comment.Group>
+          {props.posts.length > 0 ? (
+            props.posts.map((post) => {
+              //   return <p>{post.content}</p>;
+              return <Post post={post} />;
+            })
+          ) : (
+            <h1>There are no posts yet!</h1>
+          )}
+        </Comment.Group> */}
       </div>
     );
   }

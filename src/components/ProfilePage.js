@@ -6,6 +6,8 @@ import {
   Card,
   ItemContent,
   ItemDescription,
+  Image,
+  Divider,
 } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
@@ -33,20 +35,35 @@ function ProfilePage(props) {
 
   if (props.selectedUser) {
     return (
-      <div>
+      <div style={{ marginLeft: "50px", marginTop: "25px", color: "white" }}>
+        <Button
+          onClick={() => {
+            props.history.goBack();
+          }}
+        >
+          Back
+        </Button>
         <h1>{props.selectedUser.username}'s Profile</h1>
-        <h3>Member Of:</h3>
+        <Image size={"small"} src={props.selectedUser.avatar} />
+        <h2>Member Of:</h2>
+        <Divider />
         <Item.Group divided>
           {props.selectedUser.groups.map((userGroup) => {
             return (
               <Item key={userGroup.id}>
-                <Item.Content>
+                {/* <Image src={userGroup.image_url} /> */}
+                <Item.Header>
+                  <Image size={"small"} src={userGroup.image_url} />
+                </Item.Header>
+                <Item.Content style={{ paddingLeft: "15px" }}>
                   <Link to={`/groups/${userGroup.id}`}>
                     <Item.Header>
                       <h1>{userGroup.name}</h1>
                     </Item.Header>
                   </Link>
-                  <Item.Description style={{ alignItems: "center" }}>
+                  <Item.Description
+                    style={{ alignItems: "center", color: "white" }}
+                  >
                     {userGroup.description}
                   </Item.Description>
                   {/* <ItemDescription>

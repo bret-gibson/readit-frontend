@@ -3,11 +3,15 @@ import { Card, Modal, Button, Form } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { withRouter, Link, Redirect } from "react-router-dom";
 import { setGroup, setGroupUsers } from "../actions/group";
+import { setUserGroups } from "../actions/user";
+
+import { setActiveBook } from "../actions/activeBook";
 
 function CreateGroupForm(props) {
   const [input, setInput] = useState({
     name: "",
     description: "",
+    image: "",
   });
 
   const [groupId, setgroupId] = useState("");
@@ -31,6 +35,7 @@ function CreateGroupForm(props) {
         user: {
           name: input.name[0],
           description: input.description[0],
+          image_url: input.image[0],
           public: true,
           admin_user_id: props.user.id,
         },
@@ -56,28 +61,37 @@ function CreateGroupForm(props) {
       })
       .then(() => {
         props.setGroup(newGroup);
+        props.setActiveBook(null);
         setgroupId(newGroup.id);
+      })
+      .then(() => {
+        fetch(`http://localhost:3000/users/${props.user.id}`)
+          .then((resp) => resp.json())
+          .then((userData) => {
+            props.setUserGroups(userData.groups);
+          });
       });
   };
 
-  const cardStyle = {
-    paddingLeft: "30px",
-  };
+  // const cardStyle = {
+  //   paddingLeft: "30px",
+  // };
 
   const formStyle = {
     paddingLeft: "20px",
     paddingRight: "20px",
+    margin: "auto",
+    paddingBottom: "20px",
+    paddingTop: "20px",
   };
 
   const headerStyle = {
     textAlign: "center",
   };
   return (
-    <div style={cardStyle}>
+    <div style={{ paddingTop: "50px", color: "white" }}>
+      <h1 style={headerStyle}>Start Your Own Book Club!</h1>
       <Card style={formStyle}>
-        <Card.Content style={headerStyle}>
-          <b>Start Your Own Book Club!</b>
-        </Card.Content>
         <Form>
           <Form.Field>
             <label>Club Name</label>
@@ -98,6 +112,17 @@ function CreateGroupForm(props) {
               type="text"
               onChange={handleChange}
               value={input.description}
+            />
+          </Form.Field>
+
+          <Form.Field>
+            <label>Club Image</label>
+            <input
+              placeholder="Image URL"
+              name="image"
+              type="text"
+              onChange={handleChange}
+              value={input.image}
             />
           </Form.Field>
           <Modal
@@ -138,6 +163,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setGroup: (group) => dispatch(setGroup(group)),
     setGroupUsers: (groupUsers) => dispatch(setGroupUsers(groupUsers)),
+    setActiveBook: (book) => dispatch(setActiveBook(book)),
+    setUserGroups: (userGroups) => dispatch(setUserGroups(userGroups)),
   };
 };
 

@@ -15,8 +15,9 @@ function Post(props) {
   };
 
   const handleUserClick = (e) => {
-    props.setSelectedUser(props.post.user);
+    // props.setSelectedUser(props.postUser);
     props.history.push(`/users/${props.post.user.id}`);
+    setEditToggle(false);
   };
 
   const handleDelete = (e) => {
@@ -33,29 +34,59 @@ function Post(props) {
 
   if (props.user && props.user.id === props.post.user.id) {
     return editToggle ? (
-      <div>
+      <div
+        style={{
+          border: "solid",
+          borderRadius: "5px",
+          borderColor: "#cbd4c2",
+          padding: "20px",
+          fontSize: "20px",
+          marginTop: "15px",
+        }}
+      >
         <Comment>
+          <Comment.Avatar src={props.post.user.avatar} />
           <Comment.Content>
-            <Comment.Author as="a" onClick={handleUserClick}>
-              {props.post.user.username}
-            </Comment.Author>
-            <Comment.Metadata>
-              <div>
-                <Moment fromNow>{props.post.created_at}</Moment>
-              </div>
-            </Comment.Metadata>
-            <Comment.Text>{props.post.content}</Comment.Text>
-            <Comment.Actions>
+            <div onClick={handleUserClick}>
+              <Comment.Author style={{ color: "white" }} as="a">
+                {props.post.user.username}
+              </Comment.Author>
+              <Moment
+                fromNow
+                style={{
+                  paddingLeft: "10px",
+                  color: "white",
+                  fontSize: "14px",
+                }}
+              >
+                {props.post.created_at}
+              </Moment>
+            </div>
+            <Comment.Text
+              dangerouslySetInnerHTML={{ __html: props.post.content }}
+              style={{ color: "white", paddingTop: "15px" }}
+            ></Comment.Text>
+                      <Button onClick={handleEditToggle}>
+              Edit Post
+            </Button>
+            <Button color="red" onClick={handleDelete}>
+              Delete Post
+            </Button>
+            {/* <Comment.Actions>
               <Comment.Action onClick={handleEditToggle}>
                 Edit Post
               </Comment.Action>
               <Comment.Action onClick={handleDelete} style={{ color: "red" }}>
                 Delete Post
               </Comment.Action>
-            </Comment.Actions>
+            </Comment.Actions> */}
           </Comment.Content>
         </Comment>
-        <PostForm previousContent={props.post.content} postId={props.post.id} />
+        <PostForm
+          previousContent={props.post.content}
+          postId={props.post.id}
+          setEditToggle={setEditToggle}
+        />
       </div>
     ) : (
       //   <div>
@@ -70,25 +101,55 @@ function Post(props) {
       //       Delete Post
       //     </Button>
       //   </div>
-      <Comment>
-        <Comment.Content>
-          <Comment.Author as="a">{props.post.user.username}</Comment.Author>
-          <Comment.Metadata>
-            <div>
-              <Moment fromNow>{props.post.created_at}</Moment>
+      <div
+        style={{
+          border: "solid",
+          borderRadius: "5px",
+          borderColor: "#cbd4c2",
+          padding: "20px",
+          fontSize: "20px",
+          marginTop: "15px",
+        }}
+      >
+        <Comment>
+          <Comment.Avatar src={props.post.user.avatar} />
+          <Comment.Content>
+            <div onClick={handleUserClick}>
+              <Comment.Author style={{ color: "white" }} as="a">
+                {props.post.user.username}
+              </Comment.Author>
+              <Moment
+                fromNow
+                style={{
+                  paddingLeft: "10px",
+                  color: "white",
+                  fontSize: "14px",
+                }}
+              >
+                {props.post.created_at}
+              </Moment>
             </div>
-          </Comment.Metadata>
-          <Comment.Text>{props.post.content}</Comment.Text>
-          <Comment.Actions>
-            <Comment.Action onClick={handleEditToggle}>
+            <Comment.Text
+              dangerouslySetInnerHTML={{ __html: props.post.content }}
+              style={{ color: "white", paddingTop: "15px" }}
+            >
+              {/* {props.post.content} */}
+            </Comment.Text>
+            {/* <Comment.Actions> */}
+            {/* <Comment.Action as="button" onClick={handleEditToggle}> */}
+            <Button onClick={handleEditToggle}>
               Edit Post
-            </Comment.Action>
-            <Comment.Action onClick={handleDelete} style={{ color: "red" }}>
+            </Button>
+            {/* </Comment.Action> */}
+            {/* <Comment.Action as="button" onClick={handleDelete}> */}
+            <Button color="red" onClick={handleDelete}>
               Delete Post
-            </Comment.Action>
-          </Comment.Actions>
-        </Comment.Content>
-      </Comment>
+            </Button>
+            {/* </Comment.Action> */}
+            {/* </Comment.Actions> */}
+          </Comment.Content>
+        </Comment>
+      </div>
     );
   } else {
     return (
@@ -96,23 +157,56 @@ function Post(props) {
       //     <h4>{props.post.user.username} says...</h4>
       //     <p>{props.post.content}</p>
       //   </div>
-      <Comment>
-        <Comment.Content>
-          <Comment.Author as="a">{props.post.user.username}</Comment.Author>
-          <Comment.Metadata>
-            <div>
-              <Moment fromNow>{props.post.created_at}</Moment>
+      <div
+        style={{
+          border: "solid",
+          borderRadius: "5px",
+          borderColor: "#cbd4c2",
+          padding: "20px",
+          fontSize: "20px",
+          marginTop: "15px",
+        }}
+      >
+        <Comment>
+          <Comment.Avatar src={props.post.user.avatar} />
+
+          <Comment.Content>
+            <div onClick={handleUserClick}>
+              <Comment.Author style={{ color: "white" }} as="a">
+                {props.post.user.username}
+              </Comment.Author>
+              <Moment
+                fromNow
+                style={{
+                  paddingLeft: "10px",
+                  color: "white",
+                  fontSize: "14px",
+                }}
+              >
+                {props.post.created_at}
+              </Moment>
             </div>
-          </Comment.Metadata>
-          <Comment.Text>{props.post.content}</Comment.Text>
-          {/* <Comment.Actions>
+            {/* <Comment.Metadata>
+              <div>
+                <Moment fromNow style={{ color: "white" }}>
+                  {props.post.created_at}
+                </Moment>
+              </div>
+            </Comment.Metadata> */}
+            <Comment.Text
+              dangerouslySetInnerHTML={{ __html: props.post.content }}
+              style={{ color: "white", paddingTop: "15px" }}
+            >
+            </Comment.Text>
+            {/* <Comment.Actions>
             <Comment.Action>Edit Post</Comment.Action>
             <Comment.Action style={{ fontColor: "red" }}>
               Delete Post
             </Comment.Action>
           </Comment.Actions> */}
-        </Comment.Content>
-      </Comment>
+          </Comment.Content>
+        </Comment>
+      </div>
     );
   }
 }

@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+* {
+  font-family: Icons, "PT Sans", sans-serif !important;
+}
+
+body {
+  background-color: #272727 !important;
+}
+
+button {
+  background-color: #cbd4c2 !important;
+  color: black !important;
+}
+
+button.primary {
+  background-color: #f03030 !important;
+  color: white !important;
+}
+
+.menu {
+  background-color: #cbd4c2 !important;
+}

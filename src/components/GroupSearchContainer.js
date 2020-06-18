@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Card, Grid, Image, Button, Form } from "semantic-ui-react";
+import {
+  Card,
+  Grid,
+  Image,
+  Button,
+  Form,
+  Item,
+  Divider,
+} from "semantic-ui-react";
 import { connect, useSelector } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { setMostPopularGroups, setSearchedGroups } from "../actions/group";
 import GroupSearchItem from "./GroupSearchItem";
 
@@ -70,9 +78,10 @@ function GroupSearchContainer(props) {
 
   if (props.searchedGroups === null && props.mostPopularGroups !== null) {
     return (
-      <div>
+      <div style={{ marginLeft: "50px", marginTop: "25px", color: "white" }}>
         <h1>Find a Club!</h1>
-        <Form>
+        <h4>Search Book Clubs</h4>
+        {/* <Form>
           <Form.Field>
             <label>Search Book Clubs</label>
             <input
@@ -83,27 +92,66 @@ function GroupSearchContainer(props) {
             />
           </Form.Field>
           <Button onClick={handleSearchSubmit}>Search</Button>
+        </Form> */}
+        <Form>
+          <Form.Group widths="equal">
+            <Form.Input>
+              <input
+                onChange={handleChange}
+                placeholder="Search Book Clubs"
+                name="search"
+                value={input.search}
+              />
+            </Form.Input>
+            <Form.Button
+              style={{
+                alignItems: "center",
+              }}
+              onClick={handleSearchSubmit}
+            >
+              Search
+            </Form.Button>
+          </Form.Group>
         </Form>
         <h2>Most Popular Clubs</h2>
-        <div
-          style={{
-            marginLeft: "100px",
-            marginRight: "100px",
-          }}
-        >
-          <Card.Group>
-            {props.mostPopularGroups.map((group) => {
-              return <GroupSearchItem key={group.id} group={group} />;
-            })}
-          </Card.Group>
-        </div>
+        <Divider />
+        <Item.Group divided>
+          {props.mostPopularGroups.map((group) => {
+            return (
+              <Item key={group.id} group={group}>
+                <Link to={`/groups/${group.id}`}>
+                  <Item.Image size="small" src={group.image_url} />
+                </Link>
+                <Item.Content style={{ paddingLeft: "15px", color: "white" }}>
+                  <Link to={`/groups/${group.id}`}>
+                    <Item.Header>
+                      <h1>{group.name}</h1>
+                    </Item.Header>
+                  </Link>
+                  <Item.Description
+                    style={{ alignItems: "center", color: "white" }}
+                  >
+                    <h4>Description:</h4>
+                  </Item.Description>
+                  <Item.Description
+                    style={{ alignItems: "center", color: "white" }}
+                  >
+                    <p>{group.description}</p>
+                  </Item.Description>
+                </Item.Content>
+              </Item>
+            );
+            // <GroupSearchItem key={group.id} group={group} />;
+          })}
+        </Item.Group>
       </div>
     );
   } else if (props.searchedGroups !== null) {
     return (
-      <div>
+      <div style={{ marginLeft: "50px", marginTop: "25px", color: "white" }}>
         <h1>Find a Club!</h1>
-        <Form>
+        <h4>Search Book Clubs</h4>
+        {/* <Form>
           <Form.Field>
             <label>Search Book Clubs</label>
             <input
@@ -114,20 +162,60 @@ function GroupSearchContainer(props) {
             />
           </Form.Field>
           <Button onClick={handleSearchSubmit}>Search</Button>
+        </Form> */}
+
+        <Form>
+          <Form.Group widths="equal">
+            <Form.Input>
+              <input
+                onChange={handleChange}
+                placeholder="Search Book Clubs"
+                name="search"
+                value={input.search}
+              />
+            </Form.Input>
+            <Form.Button
+              style={{
+                alignItems: "center",
+              }}
+              onClick={handleSearchSubmit}
+            >
+              Search
+            </Form.Button>
+          </Form.Group>
         </Form>
+
         <h2>Search Results</h2>
-        <div
-          style={{
-            marginLeft: "100px",
-            marginRight: "100px",
-          }}
-        >
-          <Card.Group>
-            {props.searchedGroups.map((group) => {
-              return <GroupSearchItem key={group.id} group={group} />;
-            })}
-          </Card.Group>
-        </div>
+        <Divider />
+
+        <Item.Group>
+          {props.searchedGroups.map((group) => {
+            return (
+              <Item key={group.id} group={group}>
+                <Link to={`/groups/${group.id}`}>
+                  <Item.Image size="small" src={group.image_url} />
+                </Link>
+                <Item.Content style={{ paddingLeft: "15px", color: "white" }}>
+                  <Link to={`/groups/${group.id}`}>
+                    <Item.Header as="a">
+                      <h1>{group.name}</h1>
+                    </Item.Header>
+                  </Link>
+                  <Item.Description
+                    style={{ alignItems: "center", color: "white" }}
+                  >
+                    <h4>Description:</h4>
+                  </Item.Description>
+                  <Item.Description
+                    style={{ alignItems: "center", color: "white" }}
+                  >
+                    <p>{group.description}</p>
+                  </Item.Description>
+                </Item.Content>
+              </Item>
+            );
+          })}
+        </Item.Group>
       </div>
     );
   } else {
