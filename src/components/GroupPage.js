@@ -127,8 +127,13 @@ function GroupPage(props) {
     let groupBooks = null;
     let groupUsers = null;
     let activeBook = null;
+    // let wrongHostString = document.location.toString();
+    // let rightHostString = wrongHostString.replace("3001", "3000");
     let wrongHostString = document.location.toString();
-    let rightHostString = wrongHostString.replace("3001", "3000");
+    let rightHostString = wrongHostString.replace(
+      "bret-gibson-book-club.netlify.app",
+      "book-club-backend.herokuapp.com"
+    );
     fetch(rightHostString)
       .then((resp) => resp.json())
       .then((group) => {

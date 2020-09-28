@@ -22,7 +22,10 @@ function ProfilePage(props) {
   useEffect(() => {
     let selectedUser = null;
     let wrongHostString = document.location.toString();
-    let rightHostString = wrongHostString.replace("3001", "3000");
+    let rightHostString = wrongHostString.replace(
+      "bret-gibson-book-club.netlify.app",
+      "book-club-backend.herokuapp.com"
+    );
     fetch(rightHostString)
       .then((resp) => resp.json())
       .then((userData) => {
