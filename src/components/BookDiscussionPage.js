@@ -139,56 +139,6 @@ function BookDiscussionPage(props) {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        {/* <h1>{props.group.name}'s Discussion for</h1>
-        <Card
-          style={{
-            display: "inline-block",
-            padding: "20px",
-          }}
-        >
-          <Image src={props.groupBook.book.thumbnail} wrapped ui={false} />
-          <Card.Content>
-            <Card.Header>{props.groupBook.book.title}</Card.Header>
-            <Card.Meta>
-              <span>By: {props.groupBook.book.author}</span>
-            </Card.Meta>
-          </Card.Content>
-        </Card> */}
-        {/* <div style={{ marginTop: "10px" }}>
-          <h2>{props.groupBook.book.title}</h2>
-        </div>
-        <div style={{ marginTop: "10px" }}>
-          <h4>By: {props.groupBook.book.author}</h4>
-        </div>
-        <Image src={props.groupBook.book.thumbnail}></Image>
-        <h4>Summary: {props.groupBook.book.summary}</h4> */}
-        {/* <Comment.Group>
-          <Header as="h3" dividing>
-            Discussion
-          </Header>
-          {isUserInGroup() ? (
-            <Button size="small" onClick={handlePostButtonToggle}>
-              {buttonText}
-            </Button>
-          ) : null}
-          {postToggle ? (
-            <PostForm
-              setPostToggle={setPostToggle}
-              setButtonText={setButtonText}
-              buttonText={buttonText}
-              postToggle={postToggle}
-            />
-          ) : null}
-
-          {props.posts.length > 0 ? (
-            props.posts.map((post) => {
-              //   return <p>{post.content}</p>;
-              return <Post post={post} />;
-            })
-          ) : (
-            <h1>There are no posts yet!</h1>
-          )}
-        </Comment.Group> */}
       </div>
     );
   }
