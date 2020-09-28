@@ -127,7 +127,6 @@ function BookDiscussionPage(props) {
 
                 {props.posts.length > 0 ? (
                   props.posts.map((post) => {
-                    //   return <p>{post.content}</p>;
                     return <Post post={post} postUser={post.user} />;
                   })
                 ) : (
