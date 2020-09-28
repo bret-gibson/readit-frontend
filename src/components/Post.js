@@ -91,18 +91,6 @@ function Post(props) {
         />
       </div>
     ) : (
-      //   <div>
-      //     <h4>{props.post.user.username} says...</h4>
-      //     <p style={{ display: "inline-block", paddingBottom: "10px" }}>
-      //       {props.post.content}
-      //     </p>
-      //     <Button size="mini" style={{ display: "inline-block" }}>
-      //       Edit Post
-      //     </Button>
-      //     <Button size="mini" style={{ display: "inline-block" }}>
-      //       Delete Post
-      //     </Button>
-      //   </div>
       <div
         style={{
           border: "solid",
@@ -153,10 +141,6 @@ function Post(props) {
     );
   } else {
     return (
-      //   <div>
-      //     <h4>{props.post.user.username} says...</h4>
-      //     <p>{props.post.content}</p>
-      //   </div>
       <div
         style={{
           border: "solid",
