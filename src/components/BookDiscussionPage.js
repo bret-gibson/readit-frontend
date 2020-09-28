@@ -21,15 +21,18 @@ function BookDiscussionPage(props) {
   const [postToggle, setPostToggle] = useState(false);
   const [buttonText, setButtonText] = useState("Submit A Post");
 
-  //   useEffect(() => {
-  //     //   let wrongHostString = document.location.toString();
-  //     //   let rightHostString = wrongHostString.replace("3001", "3000");
-  //     fetch(`http://localhost:3000/group_books/${props.groupBook.id}`)
-  //       .then((resp) => resp.json())
-  //       .then((groupBook) => {
-  //         props.setBookPosts(groupBook.posts);
-  //       });
-  //   }, []);
+  useEffect(() => {
+    let wrongHostString = document.location.toString();
+    let rightHostString = wrongHostString.replace(
+      "bret-gibson-book-club.netlify.app",
+      "book-club-backend.herokuapp.com"
+    );
+    fetch(rightHostString)
+      .then((resp) => resp.json())
+      .then((groupBook) => {
+        props.setBookPosts(groupBook.posts);
+      });
+  }, []);
 
   const handlePostButtonToggle = (e) => {
     setPostToggle(!postToggle);
