@@ -50,7 +50,7 @@ function UserDashboard(props) {
                   My Active Books
                 </Menu.Item>
                 <Menu.Item name="my clubs" onClick={handleClubsClick} />
-                <Dropdown item text="Club Admin">
+                {/* <Dropdown item text="Club Admin">
                   <Dropdown.Menu>
                     {props.user.groups.map((userGroup) => {
                       if (props.user.id === userGroup.admin_user_id) {
@@ -66,7 +66,7 @@ function UserDashboard(props) {
                       }
                     })}
                   </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown> */}
               </Menu>
             </Grid.Column>
 
@@ -93,7 +93,7 @@ function UserDashboard(props) {
               >
                 <Menu.Item name="my active books" onClick={handleBooksClick} />
                 <Menu.Item name="my clubs" onClick={handleClubsClick} />
-                <Dropdown item text="Club Admin">
+                {/* <Dropdown item text="Club Admin">
                   <Dropdown.Menu>
                     {props.user.groups.forEach((userGroup) => {
                       return (
@@ -106,11 +106,8 @@ function UserDashboard(props) {
                         </Dropdown.Item>
                       );
                     })}
-                    {/* <Dropdown.Item>Electronics</Dropdown.Item>
-                      <Dropdown.Item>Automotive</Dropdown.Item>
-                      <Dropdown.Item>Home</Dropdown.Item> */}
                   </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown> */}
               </Menu>
             </Grid.Column>
 

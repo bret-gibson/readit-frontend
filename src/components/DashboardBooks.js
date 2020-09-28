@@ -8,14 +8,18 @@ import { setBookPosts } from "../actions/post";
 
 function DashboardBooks(props) {
   const handleGroupBookClick = (groupBook) => {
-    fetch(`http://localhost:3000/group_books/${groupBook.id}`)
+    // fetch(`http://localhost:3000/group_books/${groupBook.id}`)
+    fetch(`https://book-club-backend.herokuapp.com/group_books/${groupBook.id}`)
       .then((resp) => resp.json())
       .then((groupBookData) => {
         props.setGroupBook(groupBookData);
         props.setBookPosts(groupBookData.posts);
       })
       .then(() => {
-        fetch(`http://localhost:3000/groups/${groupBook.group_id}`)
+        // fetch(`http://localhost:3000/groups/${groupBook.group_id}`)
+        fetch(
+          `https://book-club-backend.herokuapp.com/groups/${groupBook.group.id}`
+        )
           .then((resp) => resp.json())
           .then((groupData) => {
             props.setGroupUsers(groupData.users);

@@ -35,7 +35,8 @@ function LoginForm(props) {
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     let userIdToSearch = "";
-    fetch("http://localhost:3000/login", {
+    // fetch("http://localhost:3000/login", {
+    fetch("https://book-club-backend.herokuapp.com/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +58,8 @@ function LoginForm(props) {
         }
       })
       .then(() => {
-        fetch(`http://localhost:3000/users/${userIdToSearch}`)
+        // fetch(`http://localhost:3000/users/${userIdToSearch}`)
+        fetch(`https://book-club-backend.herokuapp.com/users/${userIdToSearch}`)
           .then((resp) => resp.json())
           .then((userData) => {
             props.setCurrentUser(userData.user);

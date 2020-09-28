@@ -29,7 +29,8 @@ function CreateUserForm(props) {
   //When form is submitted, make a fetch to "log in the user"
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3000/users", {
+    // fetch("http://localhost:3000/users", {
+    fetch("https://book-club-backend.herokuapp.com/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +42,8 @@ function CreateUserForm(props) {
       }),
     })
       .then(() => {
-        fetch("http://localhost:3000/login", {
+        // fetch("http://localhost:3000/login", {
+        fetch("https://book-club-backend.herokuapp.com/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

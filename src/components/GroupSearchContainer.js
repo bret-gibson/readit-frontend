@@ -22,7 +22,8 @@ function GroupSearchContainer(props) {
 
   useEffect(() => {
     let slicedGroups = null;
-    fetch("http://localhost:3000/groups")
+    // fetch("http://localhost:3000/groups")
+    fetch("https://book-club-backend.herokuapp.com/groups")
       .then((resp) => resp.json())
       .then((groups) => {
         function compare(a, b) {
@@ -62,7 +63,8 @@ function GroupSearchContainer(props) {
     e.preventDefault();
     // props.setSearchedBooks(searchedBooks)
     let searchedGroups = null;
-    fetch("http://localhost:3000/groups")
+    // fetch("http://localhost:3000/groups")
+    fetch("https://book-club-backend.herokuapp.com/groups")
       .then((resp) => resp.json())
       .then((groups) => {
         searchedGroups = groups.filter((group) => {

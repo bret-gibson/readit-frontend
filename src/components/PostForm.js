@@ -23,7 +23,8 @@ function PostForm(props) {
   }, []);
 
   const handleSubmit = () => {
-    fetch("http://localhost:3000/posts", {
+    // fetch("http://localhost:3000/posts", {
+    fetch("https://book-club-backend.herokuapp.com/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +36,10 @@ function PostForm(props) {
         parent_id: null,
       }),
     }).then(() => {
-      fetch(`http://localhost:3000/group_books/${props.groupBook.id}`)
+      // fetch(`http://localhost:3000/group_books/${props.groupBook.id}`);
+      fetch(
+        `https://book-club-backend.herokuapp.com/group_books/${props.groupBook.id}`
+      )
         .then((resp) => resp.json())
         .then((groupBookData) => {
           props.setBookPosts(groupBookData.posts);
@@ -46,7 +50,8 @@ function PostForm(props) {
   };
 
   const handleEdit = (e) => {
-    fetch(`http://localhost:3000/posts/${props.postId}`, {
+    // fetch(`http://localhost:3000/posts/${props.postId}`, {
+    fetch(`https://book-club-backend.herokuapp.com/posts/${props.postId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +60,10 @@ function PostForm(props) {
         content: content,
       }),
     }).then(() => {
-      fetch(`http://localhost:3000/group_books/${props.groupBook.id}`)
+      // fetch(`http://localhost:3000/group_books/${props.groupBook.id}`)
+      fetch(
+        `https://book-club-backend.herokuapp.com/group_books/${props.groupBook.id}`
+      )
         .then((resp) => resp.json())
         .then((groupBookData) => {
           props.setBookPosts(groupBookData.posts);
@@ -141,7 +149,7 @@ function PostForm(props) {
     <div>
       {props.previousContent && props.postId ? (
         <Form>
-   <Editor
+          <Editor
             apiKey="flqstmmeoxdr0xeliwtq0xx10lz2a9vuha5bttpd1xhkzwld"
             name="content"
             value={content}
@@ -160,7 +168,7 @@ function PostForm(props) {
             }}
             onEditorChange={handleChange}
           />
-            {/* <input placeholder='Comment' name='comment' type='textarea' onChange={this.handleChange} value={this.state.comment} /> */}
+          {/* <input placeholder='Comment' name='comment' type='textarea' onChange={this.handleChange} value={this.state.comment} /> */}
           <Button
             color="violet"
             size="mini"

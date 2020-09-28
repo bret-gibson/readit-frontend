@@ -10,7 +10,10 @@ function BookSearchItem(props) {
 
   useEffect(() => {
     // userGroupsOptions(props.user.user.groups);
-    if (props.user || props.user.groups) {
+    // if (props.user || props.user.groups) {
+    //   userGroupsOptions(props.user.groups);
+    // }
+    if (props.user) {
       userGroupsOptions(props.user.groups);
     }
   }, []);
@@ -36,7 +39,8 @@ function BookSearchItem(props) {
   };
 
   const handleBookAdd = (e) => {
-    fetch("http://localhost:3000/group_books", {
+    // fetch("http://localhost:3000/group_books", {
+    fetch("https://book-club-backend.herokuapp.com/group_books", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

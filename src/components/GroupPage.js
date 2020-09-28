@@ -29,7 +29,8 @@ function GroupPage(props) {
   );
 
   const handleGroupBookClick = (groupBook) => {
-    fetch(`http://localhost:3000/group_books/${groupBook.id}`)
+    // fetch(`http://localhost:3000/group_books/${groupBook.id}`)
+    fetch(`https://book-club-backend.herokuapp.com/group_books/${groupBook.id}`)
       .then((resp) => resp.json())
       .then((groupBookData) => {
         props.setGroupBook(groupBookData);
@@ -48,15 +49,19 @@ function GroupPage(props) {
     // } else {
     //   setRemoveActiveButtonText("Remove Active Status");
     // }
-    fetch(`http://localhost:3000/group_books/${groupBook.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        active: false,
-      }),
-    });
+    // fetch(`http://localhost:3000/group_books/${groupBook.id}`, {
+    fetch(
+      `https://book-club-backend.herokuapp.com/group_books/${groupBook.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          active: false,
+        }),
+      }
+    );
   };
 
   const handleSetActive = (groupBook) => {
@@ -68,15 +73,19 @@ function GroupPage(props) {
     //   setActiveButtonText("Set Book as Active");
     // }
 
-    fetch(`http://localhost:3000/group_books/${groupBook.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        active: true,
-      }),
-    });
+    // fetch(`http://localhost:3000/group_books/${groupBook.id}`, {
+    fetch(
+      `https://book-club-backend.herokuapp.com/group_books/${groupBook.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          active: true,
+        }),
+      }
+    );
   };
 
   const isUserInGroup = () => {
@@ -92,7 +101,8 @@ function GroupPage(props) {
   };
 
   const handleGroupJoin = (e) => {
-    fetch("http://localhost:3000/group_users", {
+    // fetch("http://localhost:3000/group_users", {
+    fetch("https://book-club-backend.herokuapp.com/group_users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -104,7 +114,8 @@ function GroupPage(props) {
         },
       }),
     }).then(() => {
-      fetch(`http://localhost:3000/groups/${props.group.id}`)
+      // fetch(`http://localhost:3000/groups/${props.group.id}`)
+      fetch(`https://book-club-backend.herokuapp.com/groups/${props.group.id}`)
         .then((resp) => resp.json())
         .then((groupData) => {
           props.setGroupUsers(groupData);
@@ -176,18 +187,18 @@ function GroupPage(props) {
               <p style={{ marginTop: "0px", fontSize: "16px" }}>
                 {props.group.description}
               </p>
-              {isUserInGroup() ? (
-                <Button style={{ marginTop: "20px" }} disabled size="huge">
-                  Already a member
-                </Button>
-              ) : (
-                <Button
-                  style={{ marginTop: "20px" }}
-                  onClick={handleGroupJoin}
-                  size="huge"
-                >
-                  Join Group
-                </Button>
+              {
+                !isUserInGroup() && props.user ? (
+                  <Button
+                    style={{ marginTop: "20px" }}
+                    onClick={handleGroupJoin}
+                    size="huge"
+                  >
+                    Join Group
+                  </Button>
+                ) : (
+                  <div></div>
+                )
                 // <Modal
                 //   trigger={
                 //     <Button
@@ -207,7 +218,7 @@ function GroupPage(props) {
                 //     </Modal.Description>
                 //   </Modal.Content>
                 // </Modal>
-              )}
+              }
             </Grid.Column>
 
             <Grid.Column>

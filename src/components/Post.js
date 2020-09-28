@@ -21,10 +21,14 @@ function Post(props) {
   };
 
   const handleDelete = (e) => {
-    fetch(`http://localhost:3000/posts/${props.post.id}`, {
+    // fetch(`http://localhost:3000/posts/${props.post.id}`, {
+    fetch(`https://book-club-backend.herokuapp.com/posts/${props.post.id}`, {
       method: "DELETE",
     }).then(() => {
-      fetch(`http://localhost:3000/group_books/${props.groupBook.id}`)
+      // fetch(`http://localhost:3000/group_books/${props.groupBook.id}`)
+      fetch(
+        `https://book-club-backend.herokuapp.com/group_books/${props.groupBook.id}`
+      )
         .then((resp) => resp.json())
         .then((groupBookData) => {
           props.setBookPosts(groupBookData.posts);
@@ -66,9 +70,7 @@ function Post(props) {
               dangerouslySetInnerHTML={{ __html: props.post.content }}
               style={{ color: "white", paddingTop: "15px" }}
             ></Comment.Text>
-                      <Button onClick={handleEditToggle}>
-              Edit Post
-            </Button>
+            <Button onClick={handleEditToggle}>Edit Post</Button>
             <Button color="red" onClick={handleDelete}>
               Delete Post
             </Button>
@@ -137,9 +139,7 @@ function Post(props) {
             </Comment.Text>
             {/* <Comment.Actions> */}
             {/* <Comment.Action as="button" onClick={handleEditToggle}> */}
-            <Button onClick={handleEditToggle}>
-              Edit Post
-            </Button>
+            <Button onClick={handleEditToggle}>Edit Post</Button>
             {/* </Comment.Action> */}
             {/* <Comment.Action as="button" onClick={handleDelete}> */}
             <Button color="red" onClick={handleDelete}>
@@ -196,8 +196,7 @@ function Post(props) {
             <Comment.Text
               dangerouslySetInnerHTML={{ __html: props.post.content }}
               style={{ color: "white", paddingTop: "15px" }}
-            >
-            </Comment.Text>
+            ></Comment.Text>
             {/* <Comment.Actions>
             <Comment.Action>Edit Post</Comment.Action>
             <Comment.Action style={{ fontColor: "red" }}>

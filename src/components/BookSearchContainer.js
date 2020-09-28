@@ -22,7 +22,8 @@ function BookSearchContainer(props) {
 
   useEffect(() => {
     let slicedBooks = null;
-    fetch("http://localhost:3000/books")
+    // fetch("http://localhost:3000/books")
+    fetch("https://book-club-backend.herokuapp.com/books")
       .then((resp) => resp.json())
       .then((books) => {
         function compare(a, b) {
@@ -63,7 +64,8 @@ function BookSearchContainer(props) {
     e.preventDefault();
     // props.setSearchedBooks(searchedBooks)
     let searchedBooks = null;
-    fetch("http://localhost:3000/books")
+    // fetch("http://localhost:3000/books")
+    fetch("https://book-club-backend.herokuapp.com/books")
       .then((resp) => resp.json())
       .then((books) => {
         searchedBooks = books.filter((book) => {

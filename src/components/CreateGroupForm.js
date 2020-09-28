@@ -26,7 +26,8 @@ function CreateGroupForm(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     let newGroup = null;
-    fetch("http://localhost:3000/groups", {
+    // fetch("http://localhost:3000/groups", {
+    fetch("https://book-club-backend.herokuapp.com/groups", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +47,8 @@ function CreateGroupForm(props) {
         newGroup = group;
       })
       .then(() => {
-        fetch("http://localhost:3000/group_users", {
+        // fetch("http://localhost:3000/group_users", {
+        fetch("https://book-club-backend.herokuapp.com/group_users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -65,7 +67,8 @@ function CreateGroupForm(props) {
         setgroupId(newGroup.id);
       })
       .then(() => {
-        fetch(`http://localhost:3000/users/${props.user.id}`)
+        // fetch(`http://localhost:3000/users/${props.user.id}`)
+        fetch(`https://book-club-backend.herokuapp.com/users/${props.user.id}`)
           .then((resp) => resp.json())
           .then((userData) => {
             props.setUserGroups(userData.groups);

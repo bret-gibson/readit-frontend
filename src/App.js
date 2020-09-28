@@ -21,7 +21,8 @@ function App(props) {
   useEffect(() => {
     let userIdToSearch = "";
     if (localStorage.getItem("token")) {
-      fetch("http://localhost:3000/decode_token", {
+      // fetch("http://localhost:3000/decode_token", {
+      fetch("https://book-club-backend.herokuapp.com/decode_token", {
         headers: {
           Authenticate: localStorage.token,
         },
@@ -35,7 +36,8 @@ function App(props) {
           //if error, don't update the state
         })
         .then(() => {
-          fetch(`http://localhost:3000/users/${userIdToSearch}`)
+          // fetch(`http://localhost:3000/users/${userIdToSearch}`);
+          fetch(`https://book-club-backend.herokuapp.com/${userIdToSearch}`)
             .then((resp) => resp.json())
             .then((userData) => {
               props.setCurrentUser(userData.user);
