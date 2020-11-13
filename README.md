@@ -1,4 +1,4 @@
-### Book Club App Frontend
+### Readit Frontend!
 
 - Login to browse, and join book clubs
 
